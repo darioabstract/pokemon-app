@@ -1,32 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import "./App.css";
 import mainCall from './api/mainCall';
-import { IGetPokemonData} from './types/dataTypes';
-
+import { IGetPokemonData, IPokemon } from './types/dataTypes';
+import { NavBar } from './components/NavBar/NavBar';
+import { HomePage } from './components/HomePage/HomePage';
+import { Route, Routes } from 'react-router-dom';
+import { Pokemon } from './components/Pokemon/Pokemon';
 
 export const App = () => {
+  const [pokemonDetails, setPokemonDetails] = useState<IPokemon[]>([]);
 
-const [pokemonList, setPokemonList] = useState<IGetPokemonData[] | []>()
+  useEffect(() => {
+  mainCall.get('pokemon?limit=20', {}).then((res) => {
+    const results = res.data.results;
+    
+    const promisesArray = results.map((result: IGetPokemonData) => {
+      return mainCall.get(result.url).then((res) => {
+        return {
+          name: res.data.name,
+          image: res.data.sprites.front_shiny, // only pick what you need
+        };
+      });
+    });
 
-useEffect(() => {
-    mainCall.get('pokemon', {})
-      .then((res) => setPokemonList(res.data.results))
-      .catch((err) => console.error('Failed to fetch Pokémon:', err));
+    return Promise.all(promisesArray);
+  })
+  .then((res) => {
+    setPokemonDetails(res); // res is now an array of { name, image }
+  });
 }, []);
-  
-  console.log(pokemonList)
-  
+
   return (
     <div className="App">
-      <div>Pokemon</div>
-      {pokemonList && pokemonList.map((item, index) => {
-        return (
-
-          <div key={index}>{item && item.name}</div>
-       )
-     })}
-    
+      <NavBar />
+      <Routes>
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/pokemon" element={<Pokemon pokemonDetails={pokemonDetails} />} />
+      </Routes>
     </div>
   );
-}
-
+};

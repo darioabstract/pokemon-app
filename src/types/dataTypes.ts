@@ -1,3 +1,8 @@
+export enum AppUrls {
+  HOME = "/home",
+  POKEMON = "/pokemon",
+}
+
 export interface IPokemon {
   abilities: AbilitiesProps[];
   base_experience: number;
@@ -19,6 +24,7 @@ export interface IPokemon {
   stats: StatsProps;
   types: IGetPokemonData;
   weight: number;
+  image: string;
 }
 
 export interface AbilitiesProps {

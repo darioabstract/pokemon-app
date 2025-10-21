@@ -1,0 +1,18 @@
+li {
+  list-style: none;
+  margin: 0.2em;
+  margin-bottom: 0;
+}
+
+.nav {
+  margin: 0.6em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.nav_container {
+  border-bottom: 0.2em solid rgb(9, 9, 8);
+  width: 100%;
+}
