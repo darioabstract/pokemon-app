@@ -13,3 +13,8 @@
 .ant-card {
   border: solid black 0.1em;
 }
+
+img {
+  height: 9em;
+  margin: 0.2em;
+}

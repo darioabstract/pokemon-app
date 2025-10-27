@@ -1,43 +1,43 @@
 import React from 'react';
-import { IPokemon } from '../../types/dataTypes';
-import { Card } from 'antd';
+import { Card, Spin, Alert } from 'antd';
+import { usePokemonStore } from '../../store/pokemonStore';
 import "./Pokemon.css";
 
 const { Meta } = Card;
 
-interface PokemonProps {
-    pokemonDetails: IPokemon[];
-}
+export const Pokemon: React.FC = () => {
+  const { pokemonDetails, loading, error } = usePokemonStore();
 
-export const Pokemon: React.FC<PokemonProps> = ({ pokemonDetails }) => {
-    console.log(pokemonDetails)
-    return (
-        <div>
-            <h2 className='title_list'>Pokemon List</h2>
-            <div className='list_container'>
-                {pokemonDetails.map((pokemon, index) => (
-                    <ul key={index}>
-                        <li>
-                            <Card
-    style={{ width: 190 }}
-    cover={
-      <img
-        draggable={false}
-        alt="example"
-        src={pokemon.image}
-      />
-    }
+  if (loading) return <Spin tip="Loading Pokémon..." />;
+  if (error) return <Alert type="error" message={error} />;
 
-  >
-    <Meta
-      title={pokemon.name.toUpperCase()}
-    />
-  </Card>
-                        </li>
-                    </ul>
-
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <div>
+      <h2 className='title_list'>Pokemon List</h2>
+      <ul className='list_container'>
+        {pokemonDetails.map((pokemon) => (
+          <li key={pokemon.id}>
+            <Card
+              style={{ width: 180 }}
+              cover={
+                <img
+                  draggable={false}
+                  alt={pokemon.name}
+                  src={
+                    pokemon.image
+                      ? pokemon.image
+                      : 'https://formbuilder.ccavenue.com/live/uploads/company_image/488/17316704336156_Event-Image-Not-Found.jpg'
+                  }
+                />
+              }
+            >
+              <Meta title={pokemon.name.toUpperCase()} />
+              <div className='height'>Height: {pokemon.height}</div>
+              <div className='weight'>Weight: {pokemon.weight}</div>
+            </Card>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
