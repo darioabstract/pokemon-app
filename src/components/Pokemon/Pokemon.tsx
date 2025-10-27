@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Spin, Alert } from 'antd';
 import { usePokemonStore } from '../../store/pokemonStore';
 import "./Pokemon.css";
+import { SearchPokemon } from '../SearchPokemon/SearchPokemon';
 
 const { Meta } = Card;
 
@@ -14,6 +15,11 @@ export const Pokemon: React.FC = () => {
   return (
     <div>
       <h2 className='title_list'>Pokemon List</h2>
+      <div className='filter_pokemon'>
+            <SearchPokemon/>
+
+      </div>
+      
       <ul className='list_container'>
         {pokemonDetails.map((pokemon) => (
           <li key={pokemon.id}>

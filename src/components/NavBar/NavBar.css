@@ -1,6 +1,6 @@
 li {
   list-style: none;
-  margin: 0.2em;
+  margin: 0.4em;
   margin-bottom: 0;
 }
 
@@ -15,4 +15,10 @@ li {
 .nav_container {
   border-bottom: 0.2em solid rgb(9, 9, 8);
   width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
