@@ -6,13 +6,19 @@ interface PokemonState {
   pokemonDetails: IPokemon[];
   loading: boolean;
   error: string | null;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
   fetchPokemon: () => Promise<void>;
+  filteredPokemon: () => IPokemon[];
 }
 
-export const usePokemonStore = create<PokemonState>((set) => ({
+export const usePokemonStore = create<PokemonState>((set, get) => ({
   pokemonDetails: [],
   loading: false,
   error: null,
+  searchQuery: "",
+
+  setSearchQuery: (query) => set({ searchQuery: query }),
 
   fetchPokemon: async () => {
     set({ loading: true, error: null });
@@ -40,5 +46,12 @@ export const usePokemonStore = create<PokemonState>((set) => ({
     } catch (err: any) {
       set({ error: err.message || "Failed to fetch Pokémon", loading: false });
     }
+  },
+
+  filteredPokemon: () => {
+    const { pokemonDetails, searchQuery } = get();
+    return pokemonDetails.filter((p) =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
   },
 }));
