@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Input, Spin, Alert } from 'antd';
+import { Card, Input, Spin, Alert, Button } from 'antd';
 import { usePokemonStore } from '../../store/pokemonStore';
 import "./Pokemon.css";
 
@@ -13,15 +13,16 @@ export const Pokemon: React.FC = () => {
     error,
     searchQuery,
     setSearchQuery,
+    loadMorePokemon,
   } = usePokemonStore();
 
   const pokemons = filteredPokemon();
 
-  if (loading) return <Spin tip="Loading Pokémon..." />;
+  if (loading && pokemons.length === 0) return <Spin tip="Loading Pokémon..." />;
   if (error) return <Alert type="error" message={error} />;
 
   return (
-    <div>
+    <div className='main_div'>
       <h2 className="title_list">Pokémon List</h2>
 
       <div className="search_container">
@@ -69,6 +70,17 @@ export const Pokemon: React.FC = () => {
           ))}
         </ul>
       )}
+      <div className='load_more'>
+        <Button
+          type="primary"
+          onClick={loadMorePokemon}
+          loading={loading}
+          disabled={loading}
+        >
+          Load More...
+        </Button>
+
+      </div>
     </div>
   );
 };

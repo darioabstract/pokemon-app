@@ -47,3 +47,9 @@ img {
   font-size: 2em;
   color: red;
 }
+
+.load_more {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
